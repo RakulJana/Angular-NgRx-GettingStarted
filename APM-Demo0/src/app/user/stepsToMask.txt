@@ -40,4 +40,14 @@ The steps I used to mask or ensure that the login form kept the mask value was
 
 
 
+EXPLAINING HOW TO STRONGLY TYPE state   
+1) define interface within the reducer
+2) define another interface called app.state.ts
+    this file should hold export interface State which, has all the main interfaces
+    if lazy loading, must extend from root as well
+3) within the reducer function, we can define the specific state and the return type
+    they will have the same name as the interface
+4) finally go into the component.ts files and in the constructor, specifiy the type of store to the speicific one
+
+
 

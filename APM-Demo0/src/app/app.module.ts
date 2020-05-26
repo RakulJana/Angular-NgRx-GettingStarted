@@ -19,6 +19,8 @@ import { UserModule } from './user/user.module';
 
 /* ngrx imports */
 import { StoreModule } from '@ngrx/store'
+import {StoreDevtoolsModule} from '@ngrx/store-devtools'
+import { environment } from 'src/environments/environment';
 
 @NgModule({
   imports: [
@@ -27,7 +29,12 @@ import { StoreModule } from '@ngrx/store'
     HttpClientInMemoryWebApiModule.forRoot(ProductData),
     UserModule,
     AppRoutingModule,
-    StoreModule.forRoot({}) // we dont have a reducer, so we pass in an empry object
+    StoreModule.forRoot({}), // we dont have a reducer, so we pass in an empry object
+    StoreDevtoolsModule.instrument({
+      name: 'APM Demo app Devtools',
+      maxAge: 25,
+      logOnly: environment.production
+    })
   ],
   declarations: [
     AppComponent,

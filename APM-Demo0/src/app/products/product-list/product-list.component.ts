@@ -6,6 +6,10 @@ import { Product } from '../product';
 import { ProductService } from '../product.service';
 import { Store, select } from '@ngrx/store';
 
+/*import the reducer so we can get the interface store type, we dont need to define it as any anymore  */
+import * as fromProduct from '../state/product.reducer'
+
+
 @Component({
   selector: 'pm-product-list',
   templateUrl: './product-list.component.html',
@@ -24,7 +28,7 @@ export class ProductListComponent implements OnInit, OnDestroy {
   sub: Subscription;
 
   constructor(private productService: ProductService,
-              private store: Store<any>) { }
+              private store: Store<fromProduct.State>) { }
 
   ngOnInit(): void {
     this.sub = this.productService.selectedProductChanges$.subscribe(
