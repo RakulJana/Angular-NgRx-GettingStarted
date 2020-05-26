@@ -4,6 +4,7 @@ import { Subscription } from 'rxjs';
 
 import { Product } from '../product';
 import { ProductService } from '../product.service';
+import { Store, select } from '@ngrx/store';
 
 @Component({
   selector: 'pm-product-list',
@@ -22,7 +23,8 @@ export class ProductListComponent implements OnInit, OnDestroy {
   selectedProduct: Product | null;
   sub: Subscription;
 
-  constructor(private productService: ProductService) { }
+  constructor(private productService: ProductService,
+              private store: Store<any>) { }
 
   ngOnInit(): void {
     this.sub = this.productService.selectedProductChanges$.subscribe(
@@ -33,6 +35,14 @@ export class ProductListComponent implements OnInit, OnDestroy {
       next: (products: Product[]) => this.products = products,
       error: (err: any) => this.errorMessage = err.error
     });
+// TODO must unsubscribe after
+    this.store.pipe(select('products')).subscribe( // we choose the products slice of state from the prod.modu
+      products => { // every time state changes, because we subscribed, we receive the entire products slice
+        if(products) { // we set our local property to the value from the state
+          this.displayCode = products.showProductCode;
+        }
+      }
+    );
   }
 
   ngOnDestroy(): void {
@@ -40,7 +50,11 @@ export class ProductListComponent implements OnInit, OnDestroy {
   }
 
   checkChanged(value: boolean): void {
-    this.displayCode = value;
+    //this.displayCode = value;
+    this.store.dispatch({ // passes this into the product.reducer
+      type: 'TOGGLE_PRODUCT_CODE', // action type 
+      payload: value // value from the event binding
+    })
   }
 
   newProduct(): void {

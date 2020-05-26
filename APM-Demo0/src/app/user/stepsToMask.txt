@@ -1,0 +1,43 @@
+The steps I used to mask or ensure that the login form kept the mask value was
+1) in the users.module.ts
+    I imported StoreModule
+    In the NGMOdel decl, I added StoreModule.forFeature('NAME', {})
+    kept the reducer as empty as I didnt make it yet
+
+2) Next I added a state folder and within this added a name.reducer.ts file
+    this would be my reducer
+    I created the function such that
+    export function reducer(state, action){
+        case'MASKED_LOGIN':
+            return {
+                ...state,
+                showMaskedLogin: action.payload // this is the dispatched action value being tossed in
+            }
+            default {
+                return state
+            }
+    }
+
+3) Next I went back to user.module and added in the reducer function name being used and the imported
+4) I went into login.component.ts, where i needed it
+    I added the necessesary private store: Store<Any>
+    went into NGOnInit and added a this.store.pipe(select('NAME')).subscribe(
+        name => {
+            if (name // such that name exists) {
+                this.localValue = this.name.StoreVariableName 
+            }
+        }
+    )
+
+5) Finally had to dispatch these event details from the html into the reducer
+- did this by going into the angular clickable event
+- this.store.dispatch({
+    type: 'ACTION NAME'
+    payload: value // from the user action 
+}
+
+)
+
+
+
+

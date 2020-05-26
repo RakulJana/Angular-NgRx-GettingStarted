@@ -17,13 +17,17 @@ import { PageNotFoundComponent } from './home/page-not-found.component';
 /* Feature Modules */
 import { UserModule } from './user/user.module';
 
+/* ngrx imports */
+import { StoreModule } from '@ngrx/store'
+
 @NgModule({
   imports: [
     BrowserModule,
     HttpClientModule,
     HttpClientInMemoryWebApiModule.forRoot(ProductData),
     UserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    StoreModule.forRoot({}) // we dont have a reducer, so we pass in an empry object
   ],
   declarations: [
     AppComponent,
